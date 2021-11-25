@@ -29,8 +29,8 @@ public class MemoryKarte extends Button{
 	}
 	
 	public MemoryKarte(String vorne, int bildID, MemoryFeld spielfeld) {
-		bildVorne = new ImageView(vorne);
-		bildHinten = new ImageView("file:back.jpg");
+		bildVorne = new ImageView(getClass().getResource(vorne).toString());
+		bildHinten = new ImageView(getClass().getResource("grafiken/back.jpg").toString());
 		setGraphic(bildHinten);
 		
 		this.bildID = bildID;
@@ -47,7 +47,7 @@ public class MemoryKarte extends Button{
 	
 	public void rueckseiteZeigen(boolean rausnehmen) {
 		if (rausnehmen == true) {
-			setGraphic(new ImageView("aufgedeckt.jpg"));
+			setGraphic(new ImageView(getClass().getResource("grafiken/aufgedeckt.jpg").toString()));
 			nochImSpiel = false;
 		}
 		else {

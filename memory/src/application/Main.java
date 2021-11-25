@@ -5,12 +5,12 @@ import javafx.scene.Scene;
 import javafx.scene.layout.FlowPane;
 import javafx.stage.Stage;
 
-
-public class Main extends Application {
+public class Main extends Application{
 	@Override
 	public void start(Stage meineStage) throws Exception {
 		FlowPane rootNode = new MemoryFeld().initGUI(new FlowPane());
-		Scene meineScene = new Scene(rootNode, 480, 550);
+		Scene meineScene = new Scene(rootNode, 480, 590);
+		
 		meineStage.setTitle("Memory");
 		meineStage.setScene(meineScene);
 		meineStage.setResizable(false);
