@@ -5,18 +5,18 @@ import javafx.event.EventHandler;
 import javafx.scene.control.Button;
 import javafx.scene.image.ImageView;
 
-public class MemoryKarte extends Button{
+public class MemoryKarte extends Button {
 
 	private int bildID;
 	private ImageView bildVorne, bildHinten;
-	
+
 	private int bildPos;
-	
+
 	private boolean umgedreht;
 	private boolean nochImSpiel;
-	
+
 	private MemoryFeld spielfeld;
-	
+
 	class KartenListener implements EventHandler<ActionEvent> {
 		@Override
 		public void handle(ActionEvent arg0) {
@@ -24,33 +24,32 @@ public class MemoryKarte extends Button{
 				return;
 			if (umgedreht == false)
 				vorderseiteZeigen();
-				spielfeld.karteOeffnen(MemoryKarte.this);
+			spielfeld.karteOeffnen(MemoryKarte.this);
 		}
 	}
-	
+
 	public MemoryKarte(String vorne, int bildID, MemoryFeld spielfeld) {
 		bildVorne = new ImageView(getClass().getResource(vorne).toString());
 		bildHinten = new ImageView(getClass().getResource("grafiken/back.jpg").toString());
 		setGraphic(bildHinten);
-		
+
 		this.bildID = bildID;
 		umgedreht = false;
 		nochImSpiel = true;
 		this.spielfeld = spielfeld;
 		setOnAction(new KartenListener());
 	}
-	
+
 	public void vorderseiteZeigen() {
 		setGraphic(bildVorne);
 		umgedreht = true;
 	}
-	
+
 	public void rueckseiteZeigen(boolean rausnehmen) {
 		if (rausnehmen == true) {
 			setGraphic(new ImageView(getClass().getResource("grafiken/aufgedeckt.jpg").toString()));
 			nochImSpiel = false;
-		}
-		else {
+		} else {
 			setGraphic(bildHinten);
 			umgedreht = false;
 		}

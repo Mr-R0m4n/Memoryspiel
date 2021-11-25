@@ -18,7 +18,6 @@ import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.GridPane;
 import javafx.util.Duration;
 
-
 public class MemoryFeld {
 	class TimerHandler implements EventHandler<ActionEvent> {
 		@Override
@@ -26,6 +25,7 @@ public class MemoryFeld {
 			karteSchliessen();
 		}
 	}
+
 	class SchummelnHandler implements EventHandler<ActionEvent> {
 		@Override
 		public void handle(ActionEvent arg0) {
@@ -36,10 +36,10 @@ public class MemoryFeld {
 			}
 			Timeline zeitfenster = new Timeline(new KeyFrame(Duration.millis(2000), new SchummelZeit()));
 			zeitfenster.play();
-			
+
 		}
 	}
-	
+
 	class SchummelZeit implements EventHandler<ActionEvent> {
 		@Override
 		public void handle(ActionEvent arg0) {
@@ -52,17 +52,16 @@ public class MemoryFeld {
 	}
 
 	private MemoryKarte[] karten;
-	
-	private String[] bilder = {"grafiken/apfel.jpg", "grafiken/birne.jpg", "grafiken/blume.jpg", "grafiken/blume2.jpg",
+
+	private String[] bilder = { "grafiken/apfel.jpg", "grafiken/birne.jpg", "grafiken/blume.jpg", "grafiken/blume2.jpg",
 			"grafiken/ente.jpg", "grafiken/fisch.jpg", "grafiken/fuchs.jpg", "grafiken/igel.jpg",
 			"grafiken/kaenguruh.jpg", "grafiken/katze.jpg", "grafiken/kuh.jpg", "grafiken/maus1.jpg",
 			"grafiken/maus2.jpg", "grafiken/maus3.jpg", "grafiken/melone.jpg", "grafiken/pilz.jpg",
-			"grafiken/ronny.jpg", "grafiken/schmetterling.jpg","grafiken/sonne.jpg",
-			"grafiken/wolke.jpg", "grafiken/maus4.jpg"};
-	
+			"grafiken/ronny.jpg", "grafiken/schmetterling.jpg", "grafiken/sonne.jpg", "grafiken/wolke.jpg",
+			"grafiken/maus4.jpg" };
+
 	public int menschPunkte, computerPunkte;
-	private Label menschPunkteLabel, computerPunkteLabel, 
-	aktuellerSpieler;
+	private Label menschPunkteLabel, computerPunkteLabel, aktuellerSpieler;
 	private Button schummeln;
 	private int umgedrehteKarten;
 	private MemoryKarte[] paar;
@@ -70,7 +69,7 @@ public class MemoryFeld {
 	private int[][] gemerkteKarten;
 	private int spielstaerke;
 	private Timeline timer;
-	
+
 	public MemoryFeld() {
 		karten = new MemoryKarte[42];
 		paar = new MemoryKarte[2];
@@ -98,17 +97,17 @@ public class MemoryFeld {
 		SchummelnHandler schummler = new SchummelnHandler();
 		schummeln.setOnAction(schummler);
 		GridPane tempGrid = new GridPane();
-		tempGrid.add(new Label("Mensch: "), 0 , 0 );
+		tempGrid.add(new Label("Mensch: "), 0, 0);
 		tempGrid.add(menschPunkteLabel, 1, 0);
 		tempGrid.add(new Label("Computer: "), 0, 1);
-		tempGrid.add(computerPunkteLabel, 1 ,1);
+		tempGrid.add(computerPunkteLabel, 1, 1);
 		tempGrid.add(new Label("Es zieht: "), 0, 2);
 		tempGrid.add(aktuellerSpieler, 1, 2);
 		tempGrid.add(schummeln, 1, 3);
 		feld.getChildren().add(tempGrid);
 		return feld;
 	}
-	
+
 	private void kartenZeichnen(FlowPane feld) {
 		int count = 0;
 		for (int i = 0; i <= 41; i++) {
@@ -122,22 +121,21 @@ public class MemoryFeld {
 			karten[i].setBildPos(i);
 		}
 	}
-	
+
 	public void karteOeffnen(MemoryKarte karte) {
 		int kartenID, kartenPos;
-		paar[umgedrehteKarten]=karte;
+		paar[umgedrehteKarten] = karte;
 		kartenID = karte.getBildID();
 		kartenPos = karte.getBildPos();
-		if ((gemerkteKarten[0][kartenID] == -1)) 
+		if ((gemerkteKarten[0][kartenID] == -1))
 			gemerkteKarten[0][kartenID] = kartenPos;
-		else
-			if (gemerkteKarten[0][kartenID] != kartenPos) 
-				gemerkteKarten[1][kartenID] = kartenPos;
+		else if (gemerkteKarten[0][kartenID] != kartenPos)
+			gemerkteKarten[1][kartenID] = kartenPos;
 		umgedrehteKarten++;
 		if (umgedrehteKarten == 1) {
 			schummeln.setDisable(true);
 		}
-		if (umgedrehteKarten == 2) {			
+		if (umgedrehteKarten == 2) {
 			paarPruefen(kartenID);
 			timer = new Timeline(new KeyFrame(Duration.millis(2000), new TimerHandler()));
 			timer.play();
@@ -147,7 +145,7 @@ public class MemoryFeld {
 			gewinnerDialog();
 		}
 	}
-	
+
 	private void karteSchliessen() {
 		boolean raus = false;
 		if (paar[0].getBildID() == paar[1].getBildID()) {
@@ -157,18 +155,17 @@ public class MemoryFeld {
 		paar[0].rueckseiteZeigen(raus);
 		paar[1].rueckseiteZeigen(raus);
 		umgedrehteKarten = 0;
-		if (raus == false) 
+		if (raus == false)
 			spielerWechseln();
-		else
-			if (spieler == 1)
-				computerZug();
+		else if (spieler == 1)
+			computerZug();
 	}
-	
+
 	private void paarPruefen(int kartenID) {
 		if (paar[0].getBildID() == paar[1].getBildID()) {
 			paarGefunden();
-			gemerkteKarten[0][kartenID]=-2;
-			gemerkteKarten[1][kartenID]=-2;
+			gemerkteKarten[0][kartenID] = -2;
+			gemerkteKarten[1][kartenID] = -2;
 		}
 	}
 
@@ -176,35 +173,33 @@ public class MemoryFeld {
 		if (spieler == 0) {
 			menschPunkte++;
 			menschPunkteLabel.setText(Integer.toString(menschPunkte));
-		}
-		else {
+		} else {
 			computerPunkte++;
 			computerPunkteLabel.setText(Integer.toString(computerPunkte));
 		}
 	}
-	
+
 	private void spielerWechseln() {
 		if (spieler == 0) {
 			aktuellerSpieler.setText("Der Computer");
 			schummeln.setDisable(true);
 			spieler = 1;
 			computerZug();
-		}
-		else {
+		} else {
 			aktuellerSpieler.setText("Der Mensch");
 			schummeln.setDisable(false);
 			spieler = 0;
 		}
-			
+
 	}
-	
+
 	private void computerZug() {
 		int kartenZaehler = 0;
 		int zufall = 0;
 		boolean treffer = false;
-		if ((int)(Math.random() * spielstaerke) == 0) {
+		if ((int) (Math.random() * spielstaerke) == 0) {
 			while ((kartenZaehler < 21) && (treffer == false)) {
-				if ((gemerkteKarten[0][kartenZaehler] >=0) &&  (gemerkteKarten[1][kartenZaehler] >=0)) {
+				if ((gemerkteKarten[0][kartenZaehler] >= 0) && (gemerkteKarten[1][kartenZaehler] >= 0)) {
 					treffer = true;
 					karten[gemerkteKarten[0][kartenZaehler]].vorderseiteZeigen();
 					karteOeffnen(karten[gemerkteKarten[0][kartenZaehler]]);
@@ -216,19 +211,19 @@ public class MemoryFeld {
 		}
 		if (treffer == false) {
 			do {
-				zufall = (int)(Math.random() * karten.length);
+				zufall = (int) (Math.random() * karten.length);
 			} while (karten[zufall].isNochImSpiel() == false);
 			karten[zufall].vorderseiteZeigen();
 			karteOeffnen(karten[zufall]);
 
 			do {
-				zufall = (int)(Math.random() * karten.length);
+				zufall = (int) (Math.random() * karten.length);
 			} while ((karten[zufall].isNochImSpiel() == false) || (karten[zufall].isUmgedreht() == true));
 			karten[zufall].vorderseiteZeigen();
 			karteOeffnen(karten[zufall]);
 		}
 	}
-	
+
 	public boolean zugErlaubt() {
 		boolean erlaubt = true;
 		if (spieler == 1)
@@ -237,9 +232,10 @@ public class MemoryFeld {
 			erlaubt = false;
 		return erlaubt;
 	}
-	
+
 	private void gewinnerDialog() {
-		Alert dialog = new Alert(AlertType.INFORMATION, "Ihre Punkte: " + menschPunkte + "\nComputer Punkte: " + computerPunkte , ButtonType.OK);
+		Alert dialog = new Alert(AlertType.INFORMATION,
+				"Ihre Punkte: " + menschPunkte + "\nComputer Punkte: " + computerPunkte, ButtonType.OK);
 		dialog.setTitle("Spielende");
 		if (menschPunkte > computerPunkte)
 			dialog.setHeaderText("Sie haben Gewonnen");
